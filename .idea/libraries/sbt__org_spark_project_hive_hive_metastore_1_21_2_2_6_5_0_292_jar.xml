@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="sbt: org.spark-project.hive:hive-metastore:1.21.2.2.6.5.0-292:jar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.ivy2/cache/org.spark-project.hive/hive-metastore/jars/hive-metastore-1.21.2.2.6.5.0-292.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.ivy2/cache/org.spark-project.hive/hive-metastore/srcs/hive-metastore-1.21.2.2.6.5.0-292-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
