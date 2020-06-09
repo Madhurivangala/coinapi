@@ -15,9 +15,11 @@ object CaseClassesandMethods {
                         prodendpoint:String,
                         sandboxendpoint:String,
                         assetendpoint:String,
-                        key:String
+                        key:String,
+                        symbolendpoint:String,
+                      histendpoint:String
                       )
-  case class ConfigClass(api:APIParams, sqlparams: SQLParams)
+  case class ConfigClass(api:APIParams, sqlparams: SQLParams,chosencur:List[String])
 
   case class Asset( asset_id: String,
                              name: Option[String],
@@ -38,8 +40,20 @@ object CaseClassesandMethods {
                   ){
   }
 
+  case class HistData(time_period_start: String,
+  time_period_end: String,
+  time_open: String,
+  time_close: String,
+  price_open: Double,
+  price_high: Double,
+  price_low: Double,
+  price_close: Double,
+  volume_traded: Double,
+  trades_count:Int){}
+
 
   implicit val assetFormat = Json.format[Asset]
+  implicit val HistFormat = Json.format[HistData]
 
   def requestAPI(api_path: String, key: String): Tuple2[String,Int]= {
     println("API Being acccessed "+ api_path)

@@ -19,6 +19,7 @@ object coinapi extends App {
     builder().
     master("local[2]").
     enableHiveSupport().
+    enableHiveSupport().
     getOrCreate()
 
   import spark.implicits._
@@ -39,11 +40,16 @@ allassets._2 match{
 }
 
 //get all the assets(cryptodetails) from API.
-val getassethistbyinput = requestAPI(config.api.assetendpoint, config.api.key)
-allassets._2 match{
-case 200 => Json.parse(allassets._1).as[Seq[Asset]].toDF().write.mode("overwrite").jdbc(config.sqlparams.url,s"""public.asset""",jdbcProps)
-                }
 
+  val gethistData = for (elem <- config.chosencur.toList) {
+    for(elem2 <- config.chosencur.toList){
+   val gethistData = requestAPI(config.api.histendpoint.replace("{asset_id_base}",elem).replace("{asset_id_quote}",elem2), config.api.key)
+    gethistData._2 match{
+    case 200 => Json.parse(gethistData._1).as[Seq[HistData]].toDF().write.mode("append").jdbc(config.sqlparams.url,s"""public.HistoricalData""",jdbcProps)
+    case is4xx => ""
+  }
+  }
+  }
 
 
 
