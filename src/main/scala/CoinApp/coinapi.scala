@@ -18,11 +18,6 @@ object coinapi extends App {
   val spark: SparkSession = SparkSession.
     builder().
     master("local[2]").
-//    config("hive.metastore.uris","thrift://hdpmprod000.corp.pgcore.com:9083,thrift://hdpmprod001.corp.pgcore.com:9083").
-//    config("hive.exec.dynamic.partition", "true").
-//    config("hive.exec.dynamic.partition.mode", "nonstrict").
-//    config("metastore.catalog.default","spark").
-//    config("spark.sql.parquet.writeLegacyFormat","true").
     enableHiveSupport().
     getOrCreate()
 
@@ -44,16 +39,12 @@ allassets._2 match{
 }
 
 //get all the assets(cryptodetails) from API.
-val getassethistbyinput = requestAPI(config.api., config.api.key)
-  allassets._2 match{
-    case 200 => Json.parse(allassets._1).as[Seq[Asset]].toDF().write.mode("overwrite").jdbc(config.sqlparams.url,s"""public.asset""",jdbcProps)
-  }
+val getassethistbyinput = requestAPI(config.api.assetendpoint, config.api.key)
+allassets._2 match{
+case 200 => Json.parse(allassets._1).as[Seq[Asset]].toDF().write.mode("overwrite").jdbc(config.sqlparams.url,s"""public.asset""",jdbcProps)
+                }
 
 
-  // allassets._2 match
-//   {
-//   //case 200 =>   Seq(Json.prettyPrint(assetJson)).toDS().write.mode("overwrite").text(s"////Users/madhuri.vangala/cryptoapi/asset.json")
-//
-// }
+
 
 }
